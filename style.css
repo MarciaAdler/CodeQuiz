@@ -15,7 +15,9 @@ h1{
     align-items: center;
     margin: 25px;
 }
-
+#high-score {
+    display: none;
+}
 #luck {
     text-align: center;
 }

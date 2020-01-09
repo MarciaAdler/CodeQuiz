@@ -9,7 +9,8 @@
 </head>
 <body>
     <main class="holder">
-    <div class="timer">Timer: 0</div>
+        <span class="high-score">View High Scores</span>
+        <span class="timer">Timer: 0</span>
         <header class="header">
             <h1>Coding Quiz Challenge</h1>
         </header>    
@@ -26,9 +27,13 @@
             
             <p id="message"></p>
             <h3 id="end-message" style="text-align: center;"></h3>
-            <div id="Score"></div>
+            
         <button id="startGame">Start Quiz </button>
-        
+            <h2 id="score"></h2>
+        <form id="high-score">
+            <input type="text" id="initials" placeholder="Enter Initials" />
+            <button id="submit-initials">Submit</button>
+        </form>    
     </main> 
         
         

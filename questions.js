@@ -40,44 +40,64 @@ var timer = 0;
 var stopMessage = document.querySelector('#end-message');
 var title = document.querySelector('#question');
 
-var finalScore = document.querySelector('#score');
-finalScore = timer
+var finalScoreEl = document.querySelector('#score');
+finalScore = 0;
+var scoreInputList = document.getElementById('high-score')
+scoreInputList.style.display = 'block';
+var submitInitialsButton = document.getElementById('submit-initials');
+var initialsInput = document.getElementById('initials');
+
 // click the start button to show the first question
 startButton.addEventListener('click', function(event){
-  
   // clear header and content
   header.textContent = '';
   content.textContent = '';
   // hide button
   startButton.setAttribute('style','display:none');
   // set timer
-  timer=30;
-  
+  timer = 30;
   // create time interval for timer countdown
   var timerInterval = setInterval(function() {
     if (timer > 0 && currentQuestion < questions.length){
-      timer--;
-      
       timerEl.textContent = `Timer:${timer}`;
-      // if timer runs out, send message times up and clear page
+      timer--;
+    } else if (timer > 0 && currentQuestion >= questions.length) {
+        finalScore = timer;
+        finalScoreEl.textContent = `Your finale score is  ${finalScore}`;
+        timerEl.setAttribute('style','display:none;')
+        message.setAttribute('style','display:none;')
+        clearInterval(timerInterval);
+        
     } else if (timer <= 0) {
-      timer = 0;
-      timerEl.textContent = 'Timer: 0';
-      
-      clearInterval(timerInterval);
-      title.setAttribute('style','display:none;')
-      choiceList.setAttribute('style','display:none;')
-      stopMessage.textContent = 'Times Up'
-     
-    } 
-  },1000);
-  
-    
-
-  
-  
+      // if timer runs out, send message times up and clear page
+          message.setAttribute('style','display:none;')
+          timer = 0;
+          timerEl.textContent = 'Timer: 0';
+          stopMessage.textContent = 'Times Up';
+          title.setAttribute('style','display:none;')
+          choiceList.setAttribute('style','display:none;');
+          
+    }},1000);
   showQuestion();
 }); 
+
+function submitHighScore(event) {
+  event.preventDefault(); 
+  // var localStorage = window.localStorage;
+  console.log(localStorage);
+  var scoreItems = {
+    initials: initialsInput.value,
+    score: finalScore,
+  }; 
+  window.localStorage.setItem('score', JSON.stringify(scoreItems));
+  //localStorage.setItems("score", "1");
+  console.log(scoreItems);
+}
+  //localStorage.setItem(submitInitialsButton, finalScore.toString())
+  
+
+
+
 // show the first question and choices
 function showQuestion(){
   message.textContent='';
@@ -109,7 +129,7 @@ function showQuestion(){
   // grab choice items 
    var choiceItemButtons = document.querySelectorAll  ('.choiceItemButton');
     choiceItemButtons.forEach(function(choiceAnswer, index){ 
-     choiceAnswer.addEventListener('click', function(event){ 
+      choiceAnswer.addEventListener('click', function(event){ 
          // identifying answer to question, and taking action if what user clicks on is correct.
          var answerChoice = event.target.innerHTML;
          var message = document.querySelector('#message');
@@ -123,24 +143,29 @@ function showQuestion(){
          }
    
          currentQuestion++;
-         if (currentQuestion <= 4){
+         if (currentQuestion < questions.length){
            setTimeout(showQuestion, 1000);
           } else {
            
            
            
-           console.log(finalScore);
+           
            // send message saying finished
            stopMessage.textContent ="Finished";
+
            // clear title
            title.setAttribute('style','display:none;');
 
           choiceList.setAttribute('style','display:none;');
-         };
+
          
+        
+          //submitInitialsButton.addEventListener('submit', submitHighScore); 
+         
+      };   
      });
     });   
-     
+    submitInitialsButton.addEventListener('click', submitHighScore); 
      console.log(currentQuestion);
      
      
