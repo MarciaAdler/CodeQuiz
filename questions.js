@@ -21,9 +21,9 @@ var questions = [
         answer: "confirm",
       },
       {
-        title: "How do you indicate equals as a condition in an if statement",
-        choices: ["=", "!==", "===", "===="],
-        answer: "===",
+        title: "How do you repeat the same code for an entire query?",
+        choices: ["repeat", "forloop", "circuit", "loophole"],
+        answer: "forloop",
       },
 ]
 // create global variables
@@ -39,7 +39,7 @@ var timerEl = document.querySelector('.timer');
 timer = 0;
 var stopMessage = document.querySelector('#end-message');
 var title = document.querySelector('#question');
-
+var finalScore = timer
 // click the start button to show the first question
 startButton.addEventListener('click', function(event){
   header.textContent = '';
@@ -50,10 +50,11 @@ startButton.addEventListener('click', function(event){
   // create time interval for timer countdown
   var timerInterval  = setInterval(function() {
     timer--;
-    timerEl.textContent = timer;
+    timerEl.textContent = `timer:${timer}`;
     // if timer runs out, send message times up and clear page
 
     if (timer <= 0){
+      timer = 0;
      clearInterval(timerInterval);
      title.setAttribute('style','display:none;')
      choiceList.setAttribute('style','display:none;')
@@ -75,11 +76,12 @@ function showQuestion(){
   choiceList.textContent = '';
   
   
-  console.log(timer);
+  
   // clear the  and
   
   // add the question to the h2 question
   title.textContent = questions[currentQuestion].title;
+  console.log(title);
   // add the choices to a ul list
    var choiceItems = questions[currentQuestion].choices;
    
@@ -96,8 +98,8 @@ function showQuestion(){
   });
 
   // grab choice items 
-   var choiceItemButtons = document.querySelectorAll('.choiceItemButton');
-   choiceItemButtons.forEach(function(choiceAnswer, index){ 
+   var choiceItemButtons = document.querySelectorAll  ('.choiceItemButton');
+    choiceItemButtons.forEach(function(choiceAnswer, index){ 
      choiceAnswer.addEventListener('click', function(event){ 
          // identifying answer to question, and taking action if what user clicks on is correct.
          var answerChoice = event.target.innerHTML;
@@ -112,16 +114,21 @@ function showQuestion(){
          }
    
          currentQuestion++;
-         setTimeout(showQuestion, 1000);
-         if (currentQuestion > 5){
+         if (currentQuestion <= 4){
+           setTimeout(showQuestion, 1000);
+          } else {
            // end timer
+           
+           finalScore = timer;
+           
+           console.log(finalScore);
            // send message saying finished
-           endmessage.textContent ="Finished";
+           stopMessage.textContent ="Finished";
            // clear title
            title.setAttribute('style','display:none;');
 
           choiceList.setAttribute('style','display:none;');
-         }
+         };
          
      });
     });   
