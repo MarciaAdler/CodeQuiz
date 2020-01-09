@@ -36,43 +36,52 @@ var content = document.querySelector('.content');
 // create button variable
 var startButton = document.querySelector('#startGame'); 
 var timerEl = document.querySelector('.timer');
-timer = 0;
+var timer = 0;
 var stopMessage = document.querySelector('#end-message');
 var title = document.querySelector('#question');
-var finalScore = timer
+
+var finalScore = document.querySelector('#score');
+finalScore = timer
 // click the start button to show the first question
 startButton.addEventListener('click', function(event){
+  
+  // clear header and content
   header.textContent = '';
   content.textContent = '';
+  // hide button
   startButton.setAttribute('style','display:none');
   // set timer
   timer=30;
+  
   // create time interval for timer countdown
-  var timerInterval  = setInterval(function() {
-    timer--;
-    timerEl.textContent = `timer:${timer}`;
-    // if timer runs out, send message times up and clear page
-
-    if (timer <= 0){
+  var timerInterval = setInterval(function() {
+    if (timer > 0 && currentQuestion < questions.length){
+      timer--;
+      
+      timerEl.textContent = `Timer:${timer}`;
+      // if timer runs out, send message times up and clear page
+    } else if (timer <= 0) {
       timer = 0;
-     clearInterval(timerInterval);
-     title.setAttribute('style','display:none;')
-     choiceList.setAttribute('style','display:none;')
-     stopMessage.textContent = 'Times Up'
+      timerEl.textContent = 'Timer: 0';
+      
+      clearInterval(timerInterval);
+      title.setAttribute('style','display:none;')
+      choiceList.setAttribute('style','display:none;')
+      stopMessage.textContent = 'Times Up'
      
-    }
+    } 
   },1000);
   
     
 
   
-  // hide button
+  
   showQuestion();
 }); 
 // show the first question and choices
 function showQuestion(){
   message.textContent='';
-  var choiceList = document.querySelector('#choiceList')
+  var choiceList = document.querySelector('#choiceList');
   choiceList.textContent = '';
   
   
@@ -117,9 +126,8 @@ function showQuestion(){
          if (currentQuestion <= 4){
            setTimeout(showQuestion, 1000);
           } else {
-           // end timer
            
-           finalScore = timer;
+           
            
            console.log(finalScore);
            // send message saying finished
