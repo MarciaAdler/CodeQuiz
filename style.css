@@ -31,7 +31,9 @@ h1{
 #start {
     text-align: center;
 }*/
-
+.ending-buttons{
+    display: none;
+}
 #button {
     margin: 30px 0;
     background-color: purple;

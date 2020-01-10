@@ -47,7 +47,10 @@ scoreInput.style.display = 'block';
 var submitInitialsButton = document.getElementById('submit-initials');
 var initialsInput = document.getElementById('initials');
 var scoreInputForm = document.getElementById('score-input');
-scoreInputForm.setAttribute('style','display:none;')
+scoreInputForm.setAttribute('style','display:none;');
+var goBackButton = document.querySelector('#go-back');
+var clearHistoryButton = document.querySelector('#clear-scores');
+
 // click the start button to show the first question
 
 startButton.addEventListener('click', function(event){
@@ -80,7 +83,9 @@ startButton.addEventListener('click', function(event){
           choiceList.setAttribute('style','display:none;');
           finalScore = timer;
           finalScoreEl.textContent = `Your finale score is  ${finalScore}`;
-          scoreInputForm.setAttribute('style','display:block;')
+          scoreInputForm.setAttribute('style','display:block;');
+          
+          
     }},1000);
   showQuestion();
 }); 
@@ -100,20 +105,17 @@ function submitHighScore(event) {
   
 function printHighScore(number){
   finalScoreEl.textContent = '';
-  
   scoreInputForm.setAttribute('style','display:none;');
   var scoreList = document.querySelector('.scorelist');
   var player = JSON.parse(window.localStorage.getItem('score'));
   console.log(player);
   var scoreHistory = document.createElement('li');
   scoreHistory.textContent = player.initials + " - " + player.score;
-  
   scoreList.appendChild(scoreHistory);
   var scoreCardTitle = document.getElementById('score-card-name');
-  scoreCardTitle.setAttribute('style','display:block');
-  console.log(scoreHistory);
+  goBackButton.setAttribute('style','display:inline;');
+  clearHistoryButton.setAttribute('style','display: inline;')
 }  
-
 
 
 // show the first question and choices
