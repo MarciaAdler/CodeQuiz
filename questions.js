@@ -120,7 +120,7 @@ goBackButton.addEventListener('click',function(){
   timerEl.setAttribute('style','display:inline;');
   startButton.setAttribute('style','display:block;');
   content.setAttribute('style','display:block;');
-  
+  timer = 0;
 });   
 function printHighScore(number){
   finalScoreEl.textContent = '';
