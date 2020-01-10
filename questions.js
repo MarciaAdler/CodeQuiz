@@ -79,6 +79,7 @@ startButton.addEventListener('click', function(event){
         message.setAttribute('style','display:none;')
         clearInterval(timerInterval);
         scoreInputForm.setAttribute('style','display:block;')
+        finalScoreEl.setAttribute('style','display:block;');
     } else if (timer <= 0) {
       // if timer runs out, send message times up and clear page
           message.setAttribute('style','display:none;')
@@ -91,7 +92,7 @@ startButton.addEventListener('click', function(event){
           finalScoreEl.textContent = `Your finale score is  ${finalScore}`;
           clearInterval(timerInterval);
           scoreInputForm.setAttribute('style','display:block;');
-          
+          finalScoreEl.setAttribute('style','display:block;');
           
     }},1000);
   showQuestion();
@@ -106,6 +107,7 @@ function submitHighScore(event) {
     score: finalScore,
   }; 
   window.localStorage.setItem('score', JSON.stringify(scoreItems));
+  initialsInput.value = '';
   printHighScore(); 
 }
 goBackButton.addEventListener('click',function(){
@@ -115,9 +117,10 @@ goBackButton.addEventListener('click',function(){
   clearHistoryButton.setAttribute('style','display:none;');
   header.setAttribute('style','display:block;');
   stopMessage.textContent = '';
+  timerEl.setAttribute('style','display:inline;');
+  startButton.setAttribute('style','display:block;');
+  content.setAttribute('style','display:block;');
   
-  startButton.setAttribute('style','display:block;')
-  content.setAttribute('style','display:block;')
 });   
 function printHighScore(number){
   finalScoreEl.textContent = '';
@@ -190,7 +193,7 @@ function showQuestion(){
       
           // send message saying finished
           stopMessage.textContent ="Finished";
-
+          
           // clear title
           title.setAttribute('style','display:none;');
 

@@ -9,14 +9,28 @@ h1{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.container {
+.holder {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 25px;
+    justify-content: center;
 }
 
+.high-score {
+    justify-content: left;
+    
+}
+.timer {
+   justify-content: right;
 
+}
+
+button {
+    background-color: purple;  
+    color: white;
+    text-align: center;
+}
 #score-card-name {
     display: none;
 }
