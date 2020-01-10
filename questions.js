@@ -56,6 +56,7 @@ var choiceList = document.querySelector('#choiceList');
 // click the start button to show the first question
 
 startButton.addEventListener('click', function(event){
+
   question.setAttribute('style','display:block;');
   choiceList.setAttribute('style','display:block;')
   // clear header and content
@@ -105,8 +106,7 @@ function submitHighScore(event) {
     score: finalScore,
   }; 
   window.localStorage.setItem('score', JSON.stringify(scoreItems));
-  printHighScore();
-  
+  printHighScore(); 
 }
 goBackButton.addEventListener('click',function(){
   scoreCardTitle.setAttribute('style','display:none;')
@@ -121,7 +121,7 @@ goBackButton.addEventListener('click',function(){
 });   
 function printHighScore(number){
   finalScoreEl.textContent = '';
-  
+  stopMessage.textContent = '';
   scoreInputForm.setAttribute('style','display:none;');
   submitInitialsButton.setAttribute('style','disply:none;')
   
@@ -130,10 +130,10 @@ function printHighScore(number){
   var scoreHistory = document.createElement('li');
   scoreHistory.textContent = player.initials + " - " + player.score;
   scoreList.appendChild(scoreHistory);
-  
+  scoreList.setAttribute('style','display:block;');
   scoreCardTitle.textContent = 'High Scores';
   scoreCardTitle.setAttribute('style','display:block;')
-  console.log(scoreCardTitle);
+  console.log(player);
   goBackButton.setAttribute('style','display:inline;');
   clearHistoryButton.setAttribute('style','display: inline;')
 }  
@@ -199,7 +199,8 @@ function showQuestion(){
         };   
       });
     });
-    submitInitialsButton.addEventListener('click', submitHighScore)
+    submitInitialsButton.addEventListener('click', submitHighScore);
+    
     ; 
   };    
     
