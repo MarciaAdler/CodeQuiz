@@ -59,7 +59,7 @@ startButton.addEventListener('click', function(event){
   question.setAttribute('style','display:block;');
   choiceList.setAttribute('style','display:block;')
   // clear header and content
-  header.textContent = '';
+  header.setAttribute('style','display:none;')
   content.setAttribute('style','display:none;');
   // hide button
   startButton.setAttribute('style','display:none');
@@ -115,7 +115,7 @@ goBackButton.addEventListener('click',function(){
   clearHistoryButton.setAttribute('style','display:none;');
   header.setAttribute('style','display:block;');
   stopMessage.textContent = '';
-  header.textContent = 'Coding Quiz Challenge';
+  
   startButton.setAttribute('style','display:block;')
   content.setAttribute('style','display:block;')
 });   
