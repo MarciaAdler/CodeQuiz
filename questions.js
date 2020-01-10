@@ -50,15 +50,17 @@ var scoreInputForm = document.getElementById('score-input');
 scoreInputForm.setAttribute('style','display:none;');
 var goBackButton = document.querySelector('#go-back');
 var clearHistoryButton = document.querySelector('#clear-scores');
-
+var scoreCardTitle = document.getElementById('score-card-name');
+var scoreList = document.querySelector('.scorelist');
 // click the start button to show the first question
-
+function startGame (){
 startButton.addEventListener('click', function(event){
   // clear header and content
   header.textContent = '';
   content.textContent = '';
   // hide button
   startButton.setAttribute('style','display:none');
+  currentQuestion = 0;
   // set timer
   timer = 30;
   // create time interval for timer countdown
@@ -90,7 +92,7 @@ startButton.addEventListener('click', function(event){
     }},1000);
   showQuestion();
 }); 
-
+};
 function submitHighScore(event) {
   event.preventDefault(); 
   finalScoreEl.setAttribute('style','display:none;');
@@ -103,19 +105,28 @@ function submitHighScore(event) {
   printHighScore();
   
 }
-  
+goBackButton.addEventListener('click',function(){
+  scoreCardTitle.setAttribute('style','display:none;')
+  scoreList.setAttribute('style','display:none;');
+  goBackButton.setAttribute('style','display:none;');
+  clearHistoryButton.setAttribute('style','display:none;');
+  header.setAttribute('style','display:block;');
+  stopMessage.textContent = '';
+  header.textContent = 'Coding Quiz Challenge';
+  startButton.setAttribute('style','display:block;')
+});   
 function printHighScore(number){
   finalScoreEl.textContent = '';
   
   scoreInputForm.setAttribute('style','display:none;');
   submitInitialsButton.setAttribute('style','disply:none;')
-  var scoreList = document.querySelector('.scorelist');
+  
   var player = JSON.parse(window.localStorage.getItem('score'));
   
   var scoreHistory = document.createElement('li');
   scoreHistory.textContent = player.initials + " - " + player.score;
   scoreList.appendChild(scoreHistory);
-  var scoreCardTitle = document.getElementById('score-card-name');
+  
   scoreCardTitle.textContent = 'High Scores';
   scoreCardTitle.setAttribute('style','display:block;')
   console.log(scoreCardTitle);
@@ -183,10 +194,11 @@ function showQuestion(){
           
         };   
       });
-    }); 
-  }    
+    });
     submitInitialsButton.addEventListener('click', submitHighScore)
-    ;
+    ; 
+  };    
+    
      
      console.log(currentQuestion);
   
