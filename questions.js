@@ -83,6 +83,7 @@ startButton.addEventListener('click', function(event){
           choiceList.setAttribute('style','display:none;');
           finalScore = timer;
           finalScoreEl.textContent = `Your finale score is  ${finalScore}`;
+          clearInterval(timerInterval);
           scoreInputForm.setAttribute('style','display:block;');
           
           
@@ -92,8 +93,8 @@ startButton.addEventListener('click', function(event){
 
 function submitHighScore(event) {
   event.preventDefault(); 
-  
-  
+  finalScoreEl.setAttribute('style','display:none;');
+  scoreInputForm.setAttribute('style','display:none;');
   var scoreItems = {
     initials: initialsInput.value,
     score: finalScore,
@@ -105,14 +106,19 @@ function submitHighScore(event) {
   
 function printHighScore(number){
   finalScoreEl.textContent = '';
+  
   scoreInputForm.setAttribute('style','display:none;');
+  submitInitialsButton.setAttribute('style','disply:none;')
   var scoreList = document.querySelector('.scorelist');
   var player = JSON.parse(window.localStorage.getItem('score'));
-  console.log(player);
+  
   var scoreHistory = document.createElement('li');
   scoreHistory.textContent = player.initials + " - " + player.score;
   scoreList.appendChild(scoreHistory);
   var scoreCardTitle = document.getElementById('score-card-name');
+  scoreCardTitle.textContent = 'High Scores';
+  scoreCardTitle.setAttribute('style','display:block;')
+  console.log(scoreCardTitle);
   goBackButton.setAttribute('style','display:inline;');
   clearHistoryButton.setAttribute('style','display: inline;')
 }  
@@ -177,9 +183,10 @@ function showQuestion(){
           
         };   
       });
-    });   
+    }); 
+  }    
     submitInitialsButton.addEventListener('click', submitHighScore)
     ;
      
      console.log(currentQuestion);
-  }
+  
