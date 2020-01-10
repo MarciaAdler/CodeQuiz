@@ -42,12 +42,14 @@ var title = document.querySelector('#question');
 
 var finalScoreEl = document.querySelector('#score');
 finalScore = 0;
-var scoreInputList = document.getElementById('high-score')
-scoreInputList.style.display = 'block';
+var scoreInput = document.getElementById('score-input')
+scoreInput.style.display = 'block';
 var submitInitialsButton = document.getElementById('submit-initials');
 var initialsInput = document.getElementById('initials');
-
+var scoreInputForm = document.getElementById('score-input');
+scoreInputForm.setAttribute('style','display:none;')
 // click the start button to show the first question
+
 startButton.addEventListener('click', function(event){
   // clear header and content
   header.textContent = '';
@@ -67,7 +69,7 @@ startButton.addEventListener('click', function(event){
         timerEl.setAttribute('style','display:none;')
         message.setAttribute('style','display:none;')
         clearInterval(timerInterval);
-        
+        scoreInputForm.setAttribute('style','display:block;')
     } else if (timer <= 0) {
       // if timer runs out, send message times up and clear page
           message.setAttribute('style','display:none;')
@@ -76,25 +78,41 @@ startButton.addEventListener('click', function(event){
           stopMessage.textContent = 'Times Up';
           title.setAttribute('style','display:none;')
           choiceList.setAttribute('style','display:none;');
-          
+          finalScore = timer;
+          finalScoreEl.textContent = `Your finale score is  ${finalScore}`;
+          scoreInputForm.setAttribute('style','display:block;')
     }},1000);
   showQuestion();
 }); 
 
 function submitHighScore(event) {
   event.preventDefault(); 
-  // var localStorage = window.localStorage;
-  console.log(localStorage);
+  
+  
   var scoreItems = {
     initials: initialsInput.value,
     score: finalScore,
   }; 
   window.localStorage.setItem('score', JSON.stringify(scoreItems));
-  //localStorage.setItems("score", "1");
-  console.log(scoreItems);
-}
-  //localStorage.setItem(submitInitialsButton, finalScore.toString())
+  printHighScore();
   
+}
+  
+function printHighScore(number){
+  finalScoreEl.textContent = '';
+  
+  scoreInputForm.setAttribute('style','display:none;');
+  var scoreList = document.querySelector('.scorelist');
+  var player = JSON.parse(window.localStorage.getItem('score'));
+  console.log(player);
+  var scoreHistory = document.createElement('li');
+  scoreHistory.textContent = player.initials + " - " + player.score;
+  
+  scoreList.appendChild(scoreHistory);
+  var scoreCardTitle = document.getElementById('score-card-name');
+  scoreCardTitle.setAttribute('style','display:block');
+  console.log(scoreHistory);
+}  
 
 
 
@@ -130,60 +148,36 @@ function showQuestion(){
    var choiceItemButtons = document.querySelectorAll  ('.choiceItemButton');
     choiceItemButtons.forEach(function(choiceAnswer, index){ 
       choiceAnswer.addEventListener('click', function(event){ 
-         // identifying answer to question, and taking action if what user clicks on is correct.
-         var answerChoice = event.target.innerHTML;
-         var message = document.querySelector('#message');
-         // notify the user if they got it right or wrong
-         if(answerChoice === questions[currentQuestion].answer){
-          message.textContent = 'Correct!';
-    
-         } else{
-           message.innerHTML = 'Wrong';
-           timer = timer - 10;
-         }
-   
-         currentQuestion++;
-         if (currentQuestion < questions.length){
-           setTimeout(showQuestion, 1000);
-          } else {
-           
-           
-           
-           
-           // send message saying finished
-           stopMessage.textContent ="Finished";
+        // identifying answer to question, and taking action if what user clicks on is correct.
+        var answerChoice = event.target.innerHTML;
+        var message = document.querySelector('#message');
+        // notify the user if they got it right or wrong
+        if(answerChoice === questions[currentQuestion].answer){
+        message.textContent = 'Correct!';
+  
+        } else{
+          message.innerHTML = 'Wrong';
+          timer = timer - 10;
+        }
+  
+        currentQuestion++;
+        if (currentQuestion < questions.length){
+          setTimeout(showQuestion, 1000);
+        } else {
+      
+          // send message saying finished
+          stopMessage.textContent ="Finished";
 
-           // clear title
-           title.setAttribute('style','display:none;');
+          // clear title
+          title.setAttribute('style','display:none;');
 
           choiceList.setAttribute('style','display:none;');
-
-         
-        
-          //submitInitialsButton.addEventListener('submit', submitHighScore); 
-         
-      };   
-     });
+          
+        };   
+      });
     });   
-    submitInitialsButton.addEventListener('click', submitHighScore); 
+    submitInitialsButton.addEventListener('click', submitHighScore)
+    ;
+     
      console.log(currentQuestion);
-     
-     
-    
-     
-    
-   
-   
-   
-  
-   
-  
-  
-
-  
-// go to the next question
-
-// show the next question with choices
-
-//
   }
