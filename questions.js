@@ -52,12 +52,15 @@ var goBackButton = document.querySelector('#go-back');
 var clearHistoryButton = document.querySelector('#clear-scores');
 var scoreCardTitle = document.getElementById('score-card-name');
 var scoreList = document.querySelector('.scorelist');
+var choiceList = document.querySelector('#choiceList');
 // click the start button to show the first question
-function startGame (){
+
 startButton.addEventListener('click', function(event){
+  question.setAttribute('style','display:block;');
+  choiceList.setAttribute('style','display:block;')
   // clear header and content
   header.textContent = '';
-  content.textContent = '';
+  content.setAttribute('style','display:none;');
   // hide button
   startButton.setAttribute('style','display:none');
   currentQuestion = 0;
@@ -92,7 +95,7 @@ startButton.addEventListener('click', function(event){
     }},1000);
   showQuestion();
 }); 
-};
+
 function submitHighScore(event) {
   event.preventDefault(); 
   finalScoreEl.setAttribute('style','display:none;');
@@ -114,6 +117,7 @@ goBackButton.addEventListener('click',function(){
   stopMessage.textContent = '';
   header.textContent = 'Coding Quiz Challenge';
   startButton.setAttribute('style','display:block;')
+  content.setAttribute('style','display:block;')
 });   
 function printHighScore(number){
   finalScoreEl.textContent = '';
@@ -138,7 +142,7 @@ function printHighScore(number){
 // show the first question and choices
 function showQuestion(){
   message.textContent='';
-  var choiceList = document.querySelector('#choiceList');
+  
   choiceList.textContent = '';
   
   
