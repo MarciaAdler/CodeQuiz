@@ -53,10 +53,11 @@ var clearHistoryButton = document.querySelector('#clear-scores');
 var scoreCardTitle = document.getElementById('score-card-name');
 var scoreList = document.querySelector('.scorelist');
 var choiceList = document.querySelector('#choiceList');
+var viewScores = document.querySelector('.high-score');
 // click the start button to show the first question
 
 startButton.addEventListener('click', function(event){
-
+  viewScores.setAttribute('style','display:none;');
   question.setAttribute('style','display:block;');
   choiceList.setAttribute('style','display:block;')
   // clear header and content
@@ -121,7 +122,19 @@ goBackButton.addEventListener('click',function(){
   startButton.setAttribute('style','display:block;');
   content.setAttribute('style','display:block;');
   timer = 0;
+  viewScores.setAttribute('style','display:inline;');
 });   
+
+viewScores.addEventListener('click',function(event){
+  header.setAttribute('style','display:none;');
+  content.setAttribute('style','display:none;');
+  startButton.setAttribute('style','display:none;');
+  scoreCardTitle.setAttribute('style','display:block;')
+  scoreList.setAttribute('style','display:block;');
+  goBackButton.setAttribute('style','display:inline;');
+  clearHistoryButton.setAttribute('style','display:inline;');
+  
+})
 function printHighScore(number){
   finalScoreEl.textContent = '';
   stopMessage.textContent = '';
