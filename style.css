@@ -16,7 +16,12 @@ h1{
     margin: 25px;
     justify-content: center;
 }
-
+.game {
+    width: 80%;
+}
+#score-input {
+    text-align: center;
+}
 .high-score {
     justify-content: left;
     

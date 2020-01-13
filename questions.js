@@ -54,12 +54,16 @@ var scoreCardTitle = document.getElementById('score-card-name');
 var scoreList = document.querySelector('.scorelist');
 var choiceList = document.querySelector('#choiceList');
 var viewScores = document.querySelector('.high-score');
+var scores = [];
+var gameSection = document.querySelector('.game');
+
 // click the start button to show the first question
 
 startButton.addEventListener('click', function(event){
   viewScores.setAttribute('style','display:none;');
-  question.setAttribute('style','display:block;');
-  choiceList.setAttribute('style','display:block;')
+  gameSection.setAttribute('style','display:block;')
+  title.setAttribute('style','display:block;');
+  choiceList.setAttribute('style','display: block;')
   // clear header and content
   header.setAttribute('style','display:none;')
   content.setAttribute('style','display:none;');
@@ -87,7 +91,7 @@ startButton.addEventListener('click', function(event){
           timer = 0;
           timerEl.textContent = 'Timer: 0';
           stopMessage.textContent = 'Times Up';
-          title.setAttribute('style','display:none;')
+          title.setAttribute('style','display:none;');
           choiceList.setAttribute('style','display:none;');
           finalScore = timer;
           finalScoreEl.textContent = `Your finale score is  ${finalScore}`;
@@ -107,7 +111,8 @@ function submitHighScore(event) {
     initials: initialsInput.value,
     score: finalScore,
   }; 
-  window.localStorage.setItem('score', JSON.stringify(scoreItems));
+  scores.push(scoreItems);
+  window.localStorage.setItem('score', JSON.stringify(scores));
   initialsInput.value = '';
   printHighScore(); 
 }
@@ -122,6 +127,7 @@ goBackButton.addEventListener('click',function(){
   startButton.setAttribute('style','display:block;');
   content.setAttribute('style','display:block;');
   timer = 0;
+  timerEl.textContent = 'Timer: 0';
   viewScores.setAttribute('style','display:inline;');
 });   
 
@@ -130,26 +136,54 @@ viewScores.addEventListener('click',function(event){
   content.setAttribute('style','display:none;');
   startButton.setAttribute('style','display:none;');
   scoreCardTitle.setAttribute('style','display:block;')
-  scoreList.setAttribute('style','display:block;');
+  
   goBackButton.setAttribute('style','display:inline;');
   clearHistoryButton.setAttribute('style','display:inline;');
-  
+  renderScoreHistory();
+   
 })
+function renderScoreHistory(){
+  //clear scorelist
+  scoreList.textContent = '';
+  // clear game div
+  gameSection.setAttribute('style','display:none;')
+  // get scores from local storage
+  scores = JSON.parse(window.localStorage.getItem('score'));
+  console.log(scores);
+  
+  // loop on scores array to pull each score
+  for (let i = 0; i < scores.length; i++) {
+    var player = scores[i];
+    // create scoreHistory list item elements
+    var scoreHistory = document.createElement('li');
+    scoreHistory.textContent = player.initials + " - " + player.score;
+    // append score history list items to score list.
+    scoreList.appendChild(scoreHistory);
+  }
+  // show score list
+  scoreList.setAttribute('style','display:block;');
+  // set tex to score card title
+  scoreCardTitle.textContent = 'High Scores';
+  // show score card title
+  scoreCardTitle.setAttribute('style','display:block;')
+  
+  
+  
+};
+
+clearHistoryButton.addEventListener('click', function(){
+  localStorage.clear();
+  renderScoreHistory();
+})
+ 
 function printHighScore(number){
   finalScoreEl.textContent = '';
   stopMessage.textContent = '';
   scoreInputForm.setAttribute('style','display:none;');
   submitInitialsButton.setAttribute('style','disply:none;')
   
-  var player = JSON.parse(window.localStorage.getItem('score'));
+  renderScoreHistory()
   
-  var scoreHistory = document.createElement('li');
-  scoreHistory.textContent = player.initials + " - " + player.score;
-  scoreList.appendChild(scoreHistory);
-  scoreList.setAttribute('style','display:block;');
-  scoreCardTitle.textContent = 'High Scores';
-  scoreCardTitle.setAttribute('style','display:block;')
-  console.log(player);
   goBackButton.setAttribute('style','display:inline;');
   clearHistoryButton.setAttribute('style','display: inline;')
 }  
